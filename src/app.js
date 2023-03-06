@@ -1,6 +1,7 @@
 const express = require('express');
 const login = require('./controllers/login');
 const user = require('./controllers/user');
+const category = require('./controllers/category');
 const middlewares = require('./middlewares/validationMiddlewares');
 // ...
 
@@ -18,6 +19,8 @@ app.post('/login', login);
 app.post('/user', middlewares.validateNewUser, user.createNewUser);
 app.get('/user', middlewares.validateJWT, user.findAllUsers);
 app.get('/user/:id', middlewares.validateJWT, user.findById);
+
+app.post('/categories', middlewares.validateJWT, category.addNewCategory);
 
 // ...
 
