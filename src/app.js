@@ -16,6 +16,7 @@ app.use(express.json());
 app.post('/login', login);
 
 app.post('/user', middlewares.validateNewUser, user.createNewUser);
+app.get('/user', middlewares.validateJWT, user.findAllUsers);
 
 // ...
 

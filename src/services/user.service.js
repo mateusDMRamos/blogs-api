@@ -24,9 +24,17 @@ const setNewUser = async (user) => {
     };
     const token = jwt.sign({ data: { userEmail: user.email } }, secret, jwtConfig);
     return ({ status: 201, message: token });
-  };
+};
+
+const getAllUsers = async () => {
+  const users = await User.findAll({
+    attributes: ['id', 'displayName', 'email', 'image'],
+  });
+  return users;
+};
 
 module.exports = {
   getByEmail,
   setNewUser,
+  getAllUsers,
 };

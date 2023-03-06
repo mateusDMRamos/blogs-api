@@ -1,8 +1,16 @@
+const jwt = require('jsonwebtoken');
+require('dotenv/config');
+const UserService = require('../services/user.service');
+
+const secret = process.env.JWT_SECRET;
+
 const validateName = (name) => name.length > 7;
+
 const validateEmail = (email) => {
   if (email.match(/^\S+@\S+\.\S+$/)) return true;
   return false;
 };
+
 const validatePassword = (password) => password.length > 5;
 
 const validateNewUser = (req, res, next) => {
@@ -21,6 +29,21 @@ const validateNewUser = (req, res, next) => {
   next();
 };
 
+const validateJWT = async (req, res, next) => {
+  const token = req.header('Authorization');
+  if (!token) return res.status(401).json({ message: 'Token not found' });
+  try {
+    const decoded = jwt.verify(token, secret);
+    const user = await UserService.getByEmail(decoded.data.userEmail);
+    req.user = user;
+  } catch (error) {
+    return res.status(401).json({ message: 'Expired or invalid token' });
+  }
+  
+  next();
+};
+
 module.exports = {
   validateNewUser,
+  validateJWT,
 };
