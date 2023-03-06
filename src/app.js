@@ -17,6 +17,7 @@ app.post('/login', login);
 
 app.post('/user', middlewares.validateNewUser, user.createNewUser);
 app.get('/user', middlewares.validateJWT, user.findAllUsers);
+app.get('/user/:id', middlewares.validateJWT, user.findById);
 
 // ...
 
