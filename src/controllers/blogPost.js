@@ -18,7 +18,15 @@ const setNewPost = async (req, res) => {
   return res.status(status).json(message);
 };
 
+const findPostById = async (req, res) => {
+  const { id } = req.params;
+  const { status, message } = await BlogPostService.getById(id);
+  if (status === 404) return res.status(status).json({ message });
+  return res.status(status).json(message);
+};
+
 module.exports = {
   getAllPosts,
   setNewPost,
+  findPostById,
 };

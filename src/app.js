@@ -26,6 +26,7 @@ app.get('/categories', middlewares.validateJWT, category.getAllCategories);
 
 app.post('/post', middlewares.validateJWT, middlewares.validatePost, blogPost.setNewPost);
 app.get('/post', middlewares.validateJWT, blogPost.getAllPosts);
+app.get('/post/:id', middlewares.validateJWT, blogPost.findPostById);
 
 // ...
 
